@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Rock Paper Scissors</title>
+
+    <style>
+
+      body {
+        background: #9b7171;
+      }
+      .Heading {
+        color: aliceblue;
+        font-size: 4.5vh;
+        font-weight: bold;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      button {
+        background-color: black;
+        height: 19vh;
+        width: 21vh;
+        border-radius: 30%;
+        border-color: rgb(0, 0, 0);
+        font-size: 5vh;
+        border-width:medium;
+        margin: 2%;
+        
+      }
+
+      
+    </style>
+    
+  </head>
+
+  <body>
+    <p class="Heading">Rock Paper Scissors</p>
+
+    <button style="color: yellow;" onclick="
+
+      compMove = pickComputerMove();
+      result = checkWhoWon('Rock');
+
+    " class="b1">Rock
+    </button>
+
+    <button style="color: yellow;" onclick="
+
+    compMove = pickComputerMove();
+    result = checkWhoWon('Paper');
+
+    " class="b2">Paper
+    </button>
+
+    <button style="color: yellow;" onclick="
+
+    compMove = pickComputerMove();
+    result = checkWhoWon('Scissors');
+
+    " class="b3">Scissors
+    </button>
+
+  <button style="color: yellow;" onclick="
+
+  score.wins =0;
+  score.losses =0;
+  score.ties =0;
+  localStorage.removeItem('score');
+  
+  document.querySelector('.Score')
+  .innerHTML =  `Wins : ${score.wins}, Losses : ${score.losses}, Ties : ${score.ties}`;
+
+
+
+
+  " class="b3" style="color: yellow;">Reset
+  </button>
+
+  <p class="Result" style="font-size: larger;font-weight:bold;"></p>
+  <p class="Choices" style="font-size: larger;font-weight:bold;" ></p>
+  <p class="Score" style="font-size: larger;font-weight:bold;"></p>
+  
+
+    <script>
+
+      let playeMove ='';
+      let score =  
+      JSON.parse(localStorage.getItem('score')) || {
+        wins : 0,
+        losses : 0,
+        ties : 0
+      };
+
+      
+     /*   
+      if (!score)
+{
+      score = {
+        wins : 0,
+        losses : 0,
+        ties : 0
+      };
+}     
+  */
+      document.querySelector('.Score')
+      .innerHTML =  `Wins : ${score.wins}, Losses : ${score.losses}, Ties : ${score.ties}`;
+
+
+      function pickComputerMove(){
+
+        const randomNum= Math.random();
+        let compMove = '';
+        
+        let res = '';
+        if (randomNum >= 0 && randomNum < 1/3) {
+          compMove = 'Rock';
+        } else if (randomNum >= 1/3 && randomNum < 2/3) {
+          compMove = 'Paper';
+        } else {
+          compMove = 'Scissors';
+        }
+
+
+        return compMove;
+      }
+
+      function checkWhoWon(string){
+        let res ='';
+        if (string === 'Rock'){
+          playerMove = 'Rock';
+          if (compMove === 'Paper'){
+            res = 'YOU LOST';
+          }
+          else if (compMove === 'Scissors'){
+            res = 'YOU WON';
+          }
+          else {
+            res = 'DRAW';
+          }
+        }
+
+
+        if (string === 'Paper'){
+          playerMove = 'Paper';
+          if (compMove === 'Paper'){
+            res = 'DRAW';
+          }
+          else if (compMove === 'Scissors'){
+            res = 'YOU LOST';
+          }
+          else {
+            res = 'YOU WON';
+          }
+        }
+
+
+        if (string === 'Scissors'){
+          playerMove = 'Scissors';
+          if (compMove === 'Paper'){
+            res = 'YOU WON';
+          }
+          else if (compMove === 'Scissors'){
+            res = 'DRAW';
+          }
+          else {
+            res = 'YOU LOST';
+          }
+        }
+
+        if(res ==='YOU WON'){
+          score.wins += 1;
+        }
+        else if (res ==='YOU LOST'){
+          score.losses += 1;
+        }
+        else if (res === 'DRAW'){ 
+          score.ties +=1;
+        }
+
+        
+
+        localStorage.setItem('score', JSON.stringify(score));
+
+        document.querySelector('.Score')
+      .innerHTML =  `Wins : ${score.wins}  , Losses : ${score.losses}  , Ties : ${score.ties}`;
+
+        document.querySelector('.Choices')
+        .innerHTML = `You : ${playerMove} , Computer: ${compMove}`;
+
+        document.querySelector('.Result')
+        .innerHTML = `${res}`;
+
+        return res;
+      }
+
+    </script>
+  </body>
+</html>
